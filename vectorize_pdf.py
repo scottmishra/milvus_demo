@@ -10,6 +10,6 @@ url="localhost"
 port="8071"
 
 import scipdf
-article_dict = scipdf.parse_pdf_to_dict(path) # return dictionary
+article_dict = scipdf.parse_pdf_to_dict(path, grobid_url="http://host.docker.internal:8071") # return dictionary
 
 print(article_dict['abstract'])
