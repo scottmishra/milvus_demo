@@ -28,6 +28,12 @@ services:
       timeout: 20s
       retries: 3
 
+  grobid:
+    container_name: grobid
+    image: lfoppiano/grobid:0.7.2
+    ports:
+      - "8071:8070"
+
   standalone:
     container_name: milvus-standalone
     image: milvusdb/milvus:v2.2.8
