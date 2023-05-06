@@ -23,3 +23,5 @@ around text search and QA as I go along. The goal is to help make finding resear
 1. Load your ChatGPT api key into an `.env` file
 1. Load your PDF's into the PDF folder
 1. Run the `vectorize_pdf.py` script to load the milvus data with Abstracts and Conclusions
+    - If you run this multiple times you may want to look at lines 23/24 to keep from dropping the table
+    - Also look at line 45 for the index creation, you need to comment this out if you are comment out 24

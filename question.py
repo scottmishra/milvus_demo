@@ -60,4 +60,6 @@ def query(queries, top_k = 5):
             print((hits.entity.get('abstract'), 88))
             print()
 
-query(question)
+# query(question)
+question2 = "Whats the affect of Parkinsons on walking gate"
+query(question2)
