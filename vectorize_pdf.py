@@ -148,7 +148,10 @@ openai.organization = GPT_4_ORG
 openai.api_key = GPT_4_API_KEY
 openai.Model.list()
 
-for item in ["C","D","E","F","G"]:
+import string
+
+alpha = list(string.ascii_uppercase)
+for item in alpha[17:]:
     path = f"./PDFs/{item}/*" ## TODO: set this as an input parameter to help streamline the processing
     files = glob_folder(path)
     processed_data = collect_publish_data(files)
