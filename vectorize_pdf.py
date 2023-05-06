@@ -20,8 +20,8 @@ DIMENSION = 1536
 connections.connect("default", host="host.docker.internal", port="19530")
 
 # Remove collection if it already exists
-# if utility.has_collection(COLLECTION_NAME):
-#     utility.drop_collection(COLLECTION_NAME)
+if utility.has_collection(COLLECTION_NAME):
+    utility.drop_collection(COLLECTION_NAME)
 
 # Create collection which includes the id, title, and embedding.
 fields = [
@@ -42,7 +42,7 @@ INDEX_PARAM = {
 }
 BATCH_SIZE = 1000
 # Create the index on the collection and load it.
-# collection.create_index(field_name="embedding", index_params=INDEX_PARAM)
+collection.create_index(field_name="embedding", index_params=INDEX_PARAM)
 collection.load()
 
 ## Setup ENV
@@ -142,8 +142,6 @@ def push_into_milvus(data_points, embeddings):
     collection.insert(entities)
     return
 
-
-
 openai.organization = GPT_4_ORG
 openai.api_key = GPT_4_API_KEY
 openai.Model.list()
@@ -151,7 +149,7 @@ openai.Model.list()
 import string
 
 alpha = list(string.ascii_uppercase)
-for item in alpha[17:]:
+for item in alpha:
     path = f"./PDFs/{item}/*" ## TODO: set this as an input parameter to help streamline the processing
     files = glob_folder(path)
     processed_data = collect_publish_data(files)
