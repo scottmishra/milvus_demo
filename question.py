@@ -49,9 +49,10 @@ def embed(texts):
     return [x['embedding'] for x in embeddings['data']]
 
 def query(queries, top_k = 5):
+    results = []
     if type(queries) != list:
         queries = [queries]
-    res = collection.search(embed(queries), anns_field='embedding', param=QUERY_PARAM, limit = top_k, output_fields=['title', 'abstract'])
+    res = collection.search(embed(queries), anns_field='embedding', param=QUERY_PARAM, limit = top_k, output_fields=['title', 'authors', 'abstract'])
     for i, hit in enumerate(res):
         print('Description:', queries[i])
         print('Results:')
@@ -59,7 +60,27 @@ def query(queries, top_k = 5):
             print('\t' + 'Rank:', ii + 1, 'Score:', hits.score, 'Title:', hits.entity.get('title'))
             print((hits.entity.get('abstract'), 88))
             print()
+            results.append(hits.entity.get('authors'))
+    return results
 
-# query(question)
-question2 = "Whats the affect of Parkinsons on walking gate"
-query(question2)
+results = query(question)
+
+augmented_query = "\n\n---\n\n".join(results)+"\n\n-----\n\n"+question
+# system message to 'prime' the model
+primer = f"""You are Q&A bot. A highly intelligent system that answers
+user questions based on the information provided by the user above
+each question. If the information can not be found in the information
+provided by the user you truthfully say "I don't know".
+"""
+res = openai.ChatCompletion.create(
+    model="gpt-4",
+    messages=[
+        {"role": "system", "content": primer},
+        {"role": "user", "content": augmented_query}
+    ]
+)
+
+print(res['choices'][0]['message']['content'])
+# question2 = "Whats the affect of Parkinsons on walking gate"
+# results = query(question2)
+## Now that I have the top 5 items, i need to use the openai completion api to summarize them

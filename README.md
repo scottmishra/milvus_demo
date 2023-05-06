@@ -22,6 +22,7 @@ around text search and QA as I go along. The goal is to help make finding resear
     `python -m spacy download en_core_web_sm`
 1. Load your ChatGPT api key into an `.env` file
 1. Load your PDF's into the PDF folder
+    - The PDF folder expects alphabetical folders "A", "B", "C", etc. you dont need to order them this way, but its easiest to avoid making any code changes
 1. Run the `vectorize_pdf.py` script to load the milvus data with Abstracts and Conclusions
     - If you run this multiple times you may want to look at lines 23/24 to keep from dropping the table
     - Also look at line 45 for the index creation, you need to comment this out if you are comment out 24
