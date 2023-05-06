@@ -148,8 +148,9 @@ openai.organization = GPT_4_ORG
 openai.api_key = GPT_4_API_KEY
 openai.Model.list()
 
-path = "./PDFs/A/*" ## TODO: set this as an input parameter to help streamline the processing
-files = glob_folder(path)
-processed_data = collect_publish_data(files)
-embeddings = create_data_embedding(processed_data)
-push_into_milvus(processed_data, embeddings)
+for item in ["C","D","E","F","G"]:
+    path = f"./PDFs/{item}/*" ## TODO: set this as an input parameter to help streamline the processing
+    files = glob_folder(path)
+    processed_data = collect_publish_data(files)
+    embeddings = create_data_embedding(processed_data)
+    push_into_milvus(processed_data, embeddings)
