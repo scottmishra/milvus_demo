@@ -110,6 +110,9 @@ def check_for_conclusion(article):
         return check_conclusion[0]['text']
     return ""
 
+def create_conclusion_embedding(data):
+    # Here we want to leverage the grobid breakdown to find the conclusion section and upload it.\
+    return
 
 def create_data_embedding(data):
     # Reach out to ChatGPT to get the embedding
@@ -120,7 +123,7 @@ def create_data_embedding(data):
             input=[
             item['title'],
             item['authors'],
-            item['abstract'],
+            item['title']+";abstract;"+item['abstract'],
             # item['conclusion'],
             # item['pub_date']
         ], engine=embed_model
@@ -134,7 +137,7 @@ def push_into_milvus(data_points, embeddings):
     entities = [
         [x['title'] for x in data_points],
         [x['authors'] for x in data_points],
-        [x['abstract'] for x in data_points],
+        [x['title']+x['abstract'] for x in data_points],
         # [x['conclusion'] for x in data_points],
         # [x['pub_date'] for x in data_points],
         [x['embedding'] for x in data_points]
@@ -149,7 +152,7 @@ openai.Model.list()
 import string
 
 alpha = list(string.ascii_uppercase)
-for item in alpha:
+for item in alpha[0:2]:
     path = f"./PDFs/{item}/*" ## TODO: set this as an input parameter to help streamline the processing
     files = glob_folder(path)
     processed_data = collect_publish_data(files)
